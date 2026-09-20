@@ -1,9 +1,7 @@
-import {
-  CurrencyPipe,
-  DatePipe,
-} from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+
 import {
   IonButton,
   IonContent,
@@ -11,9 +9,8 @@ import {
   IonItem,
   IonLabel,
   IonList,
-  IonNote,
   IonTitle,
-  IonToolbar,
+  IonToolbar
 } from '@ionic/angular';
 
 import { GananciasService } from '../../services/ganancias.service';
@@ -24,9 +21,8 @@ import { GananciasService } from '../../services/ganancias.service';
   styleUrls: ['./historial.page.scss'],
   standalone: true,
   imports: [
-    RouterLink,
     CurrencyPipe,
-    DatePipe,
+    RouterLink,
     IonHeader,
     IonToolbar,
     IonTitle,
@@ -34,11 +30,10 @@ import { GananciasService } from '../../services/ganancias.service';
     IonList,
     IonItem,
     IonLabel,
-    IonNote,
-    IonButton,
-  ],
+    IonButton
+  ]
 })
 export class HistorialPage {
-  readonly gananciasService =
-    inject(GananciasService);
+
+  readonly gananciasService = inject(GananciasService);
 }

@@ -2,21 +2,21 @@ import { Component, inject } from '@angular/core';
 import {
   NonNullableFormBuilder,
   ReactiveFormsModule,
-  Validators,
+  Validators
 } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
+
 import {
+  IonBackButton,
   IonButton,
+  IonButtons,
   IonContent,
   IonHeader,
   IonInput,
   IonItem,
-  IonList,
-  IonSelect,
-  IonSelectOption,
   IonTextarea,
   IonTitle,
-  IonToolbar,
+  IonToolbar
 } from '@ionic/angular';
 
 import { GananciasService } from '../../services/ganancias.service';
@@ -28,24 +28,22 @@ import { GananciasService } from '../../services/ganancias.service';
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    RouterLink,
     IonHeader,
     IonToolbar,
+    IonButtons,
+    IonBackButton,
     IonTitle,
     IonContent,
-    IonList,
     IonItem,
-    IonSelect,
-    IonSelectOption,
     IonInput,
     IonTextarea,
-    IonButton,
-  ],
+    IonButton
+  ]
 })
 export class RegistrarGananciaPage {
+
   private readonly fb = inject(NonNullableFormBuilder);
-  private readonly gananciasService =
-    inject(GananciasService);
+  private readonly gananciasService = inject(GananciasService);
   private readonly router = inject(Router);
 
   private readonly ahora = new Date();
@@ -57,26 +55,23 @@ export class RegistrarGananciaPage {
       22000,
       [
         Validators.required,
-        Validators.min(1),
-      ],
+        Validators.min(1)
+      ]
     ],
 
-    propina: [
-      0,
-      Validators.min(0),
-    ],
+    propina: [0, Validators.min(0)],
 
     fecha: [
       this.ahora.toLocaleDateString('en-CA'),
-      Validators.required,
+      Validators.required
     ],
 
     hora: [
       this.ahora.toTimeString().slice(0, 5),
-      Validators.required,
+      Validators.required
     ],
 
-    notas: [''],
+    notas: ['']
   });
 
   guardar(): void {

@@ -1,68 +1,75 @@
 import { Injectable, computed, signal } from '@angular/core';
+import { Ganancia, NuevaGanancia } from '../models/ganancia.model';
 
-import {
-  Ganancia,
-  NuevaGanancia,
-} from '../models/ganancia.model';
+//LOCAL STORAGE
 
-const HOY = new Date().toLocaleDateString('en-CA');
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class GananciasService {
-  private readonly registros = signal<Ganancia[]>([
-    {
-      id: '1',
-      servicio: 'Cabello + barba',
-      monto: 35000,
-      propina: 3000,
-      fecha: HOY,
-      hora: '14:30',
-      notas: 'Cliente frecuente',
-    },
-    {
-      id: '2',
-      servicio: 'Corte cabello',
-      monto: 22000,
-      propina: 0,
-      fecha: HOY,
-      hora: '13:15',
-      notas: '',
-    },
-  ]);
 
-  readonly ganancias = this.registros.asReadonly();
+  private readonly clave = 'ganancias';
 
-  readonly cantidad = computed(() => {
-    return this.registros().length;
-  });
+  private readonly lista = signal<Ganancia[]>(this.cargar());
 
-  readonly total = computed(() => {
-    return this.registros().reduce(
-      (suma, registro) =>
-        suma + registro.monto + registro.propina,
+  readonly ganancias = this.lista.asReadonly();
+
+  readonly cantidad = computed(() => this.lista().length);
+
+  readonly total = computed(() =>
+    this.lista().reduce(
+      (suma, ganancia) => suma + ganancia.monto + ganancia.propina,
       0
-    );
-  });
+    )
+  );
 
-  crear(datos: NuevaGanancia): Ganancia {
-    const nueva: Ganancia = {
-      id: crypto.randomUUID(),
-      ...datos,
+  crear(datos: NuevaGanancia): void {
+    const nuevaGanancia: Ganancia = {
+      id: Date.now().toString(),
+      ...datos
     };
 
-    this.registros.update((actuales) => [
-      nueva,
-      ...actuales,
-    ]);
+    const actualizadas = [...this.lista(), nuevaGanancia];
 
-    return nueva;
+    this.lista.set(actualizadas);
+    this.guardar(actualizadas);
   }
 
   obtenerPorId(id: string): Ganancia | undefined {
-    return this.registros().find(
-      (registro) => registro.id === id
+    return this.lista().find(ganancia => ganancia.id === id);
+  }
+
+  actualizar(id: string, datos: NuevaGanancia): void {
+    const actualizadas = this.lista().map(ganancia =>
+      ganancia.id === id
+        ? { ...ganancia, ...datos }
+        : ganancia
     );
+
+    this.lista.set(actualizadas);
+    this.guardar(actualizadas);
+  }
+
+  eliminar(id: string): void {
+    const actualizadas = this.lista().filter(
+      ganancia => ganancia.id !== id
+    );
+
+    this.lista.set(actualizadas);
+    this.guardar(actualizadas);
+  }
+
+  private guardar(ganancias: Ganancia[]): void {
+    localStorage.setItem(this.clave, JSON.stringify(ganancias));
+  }
+
+  private cargar(): Ganancia[] {
+    try {
+      const datos = localStorage.getItem(this.clave);
+      return datos ? JSON.parse(datos) : [];
+    } catch {
+      return [];
+    }
   }
 }

@@ -5,6 +5,13 @@
 </ion-header>
 
 <ion-content class="ion-padding">
+
+  <ion-button
+    expand="block"
+    routerLink="/app/registrar">
+    Nueva ganancia
+  </ion-button>
+
   <ion-list>
     @for (
       ganancia of gananciasService.ganancias();
@@ -12,37 +19,33 @@
     ) {
       <ion-item
         button
-        [routerLink]="[
-          '/app/ganancia',
-          ganancia.id
-        ]"
-      >
+        detail
+        [routerLink]="['/app/ganancia', ganancia.id]">
+
         <ion-label>
           <h2>{{ ganancia.servicio }}</h2>
 
           <p>
-            {{ ganancia.fecha | date:'dd/MM/yyyy' }}
-            ·
-            {{ ganancia.hora }}
+            {{ ganancia.fecha }} · {{ ganancia.hora }}
+          </p>
+
+          <p>
+            Total:
+            {{
+              ganancia.monto + ganancia.propina
+                | currency:'CLP':'symbol-narrow':'1.0-0'
+            }}
           </p>
         </ion-label>
 
-        <ion-note slot="end">
-          {{
-            ganancia.monto + ganancia.propina
-              | currency:'CLP':'symbol-narrow':'1.0-0'
-          }}
-        </ion-note>
       </ion-item>
     } @empty {
-      <p>No hay ganancias registradas.</p>
+      <ion-item>
+        <ion-label>
+          Todavía no existen ganancias registradas.
+        </ion-label>
+      </ion-item>
     }
   </ion-list>
 
-  <ion-button
-    expand="block"
-    routerLink="/app/registrar"
-  >
-    Agregar ganancia
-  </ion-button>
 </ion-content>
