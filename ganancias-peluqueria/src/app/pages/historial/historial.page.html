@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Historial</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list>
+    @for (
+      ganancia of gananciasService.ganancias();
+      track ganancia.id
+    ) {
+      <ion-item
+        button
+        [routerLink]="[
+          '/app/ganancia',
+          ganancia.id
+        ]"
+      >
+        <ion-label>
+          <h2>{{ ganancia.servicio }}</h2>
+
+          <p>
+            {{ ganancia.fecha | date:'dd/MM/yyyy' }}
+            ·
+            {{ ganancia.hora }}
+          </p>
+        </ion-label>
+
+        <ion-note slot="end">
+          {{
+            ganancia.monto + ganancia.propina
+              | currency:'CLP':'symbol-narrow':'1.0-0'
+          }}
+        </ion-note>
+      </ion-item>
+    } @empty {
+      <p>No hay ganancias registradas.</p>
+    }
+  </ion-list>
+
+  <ion-button
+    expand="block"
+    routerLink="/app/registrar"
+  >
+    Agregar ganancia
+  </ion-button>
+</ion-content>

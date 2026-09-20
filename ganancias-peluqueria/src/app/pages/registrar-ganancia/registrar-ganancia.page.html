@@ -1,0 +1,104 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Registrar ganancia</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form
+    [formGroup]="formulario"
+    (ngSubmit)="guardar()"
+  >
+    <ion-list>
+      <ion-item>
+        <ion-select
+          label="Tipo de servicio"
+          labelPlacement="stacked"
+          formControlName="servicio"
+        >
+          <ion-select-option value="Corte cabello">
+            Corte cabello
+          </ion-select-option>
+
+          <ion-select-option value="Corte barba">
+            Corte barba
+          </ion-select-option>
+
+          <ion-select-option value="Corte niño">
+            Corte niño
+          </ion-select-option>
+
+          <ion-select-option value="Cabello + barba">
+            Cabello + barba
+          </ion-select-option>
+
+          <ion-select-option value="Otro">
+            Otro
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          label="Monto cobrado"
+          labelPlacement="stacked"
+          type="number"
+          formControlName="monto"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          label="Propina"
+          labelPlacement="stacked"
+          type="number"
+          formControlName="propina"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          label="Fecha"
+          labelPlacement="stacked"
+          type="date"
+          formControlName="fecha"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          label="Hora"
+          labelPlacement="stacked"
+          type="time"
+          formControlName="hora"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-textarea
+          label="Notas"
+          labelPlacement="stacked"
+          placeholder="Opcional"
+          formControlName="notas"
+        ></ion-textarea>
+      </ion-item>
+    </ion-list>
+
+    <ion-button
+      expand="block"
+      type="submit"
+      [disabled]="formulario.invalid"
+    >
+      Guardar ganancia
+    </ion-button>
+
+    <ion-button
+      expand="block"
+      fill="clear"
+      type="button"
+      routerLink="/app/inicio"
+    >
+      Cancelar
+    </ion-button>
+  </form>
+</ion-content>

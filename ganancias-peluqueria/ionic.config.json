@@ -1,0 +1,7 @@
+{
+  "name": "ganancias-peluqueria",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
