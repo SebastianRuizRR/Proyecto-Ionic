@@ -1,0 +1,82 @@
+<ion-header>
+  <ion-toolbar>
+
+    <ion-buttons slot="start">
+      <ion-back-button
+        defaultHref="/app/historial">
+      </ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Editar ganancia</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <form
+    [formGroup]="formulario"
+    (ngSubmit)="guardar()">
+
+    <ion-item>
+      <ion-input
+        label="Servicio"
+        labelPlacement="stacked"
+        formControlName="servicio">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input
+        label="Monto"
+        labelPlacement="stacked"
+        type="number"
+        formControlName="monto">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input
+        label="Propina"
+        labelPlacement="stacked"
+        type="number"
+        formControlName="propina">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input
+        label="Fecha"
+        labelPlacement="stacked"
+        type="date"
+        formControlName="fecha">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input
+        label="Hora"
+        labelPlacement="stacked"
+        type="time"
+        formControlName="hora">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-textarea
+        label="Notas"
+        labelPlacement="stacked"
+        formControlName="notas">
+      </ion-textarea>
+    </ion-item>
+
+    <ion-button
+      type="submit"
+      expand="block"
+      class="ion-margin-top">
+      Guardar cambios
+    </ion-button>
+
+  </form>
+
+</ion-content>
