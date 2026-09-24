@@ -1,0 +1,49 @@
+.marca {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 18px 0 22px;
+}
+
+.marca__logo {
+  width: 58px;
+  height: 58px;
+  border-radius: 19px;
+  background: var(--acc);
+  color: var(--on-acc);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.marca__textos {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.marca__nombre {
+  font-size: 46px;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+}
+
+.clave-cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.olvide {
+  border: none;
+  background: none;
+  padding: 2px 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--acc);
+  cursor: pointer;
+}
+
+.acceso__enviar {
+  margin-top: 4px;
+}

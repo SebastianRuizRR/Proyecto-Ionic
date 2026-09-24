@@ -1,13 +1,17 @@
 import { Routes } from '@angular/router';
 
+import { conSesionGuard, sinSesionGuard } from './guards/auth.guard';
+
 export const routes: Routes = [
   {
     path: 'login',
+    canActivate: [sinSesionGuard],
     loadComponent: () =>
       import('./pages/login/login.page').then((m) => m.LoginPage),
   },
   {
     path: 'crear-cuenta',
+    canActivate: [sinSesionGuard],
     loadComponent: () =>
       import('./pages/crear-cuenta/crear-cuenta.page').then(
         (m) => m.CrearCuentaPage
@@ -15,6 +19,7 @@ export const routes: Routes = [
   },
   {
     path: 'app',
+    canActivate: [conSesionGuard],
     loadComponent: () =>
       import('./pages/tabs/tabs.page').then((m) => m.TabsPage),
     children: [

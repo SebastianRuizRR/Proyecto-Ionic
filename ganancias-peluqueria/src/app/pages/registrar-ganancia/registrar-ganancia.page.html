@@ -1,77 +1,108 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/app/inicio"></ion-back-button>
-    </ion-buttons>
-
-    <ion-title>Registrar ganancia</ion-title>
-  </ion-toolbar>
+<ion-header class="encabezado-app ion-no-border">
+  <app-encabezado antetitulo="Nuevo servicio" titulo="Registrar ganancia" />
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content>
+  <div class="contenido registrar">
 
-  <form [formGroup]="formulario" (ngSubmit)="guardar()">
+    <div class="grupo">
+      <span class="etiqueta-seccion">Tipo de servicio</span>
+      <div class="servicios">
+        @for (s of servicios; track s.id) {
+          <button
+            type="button"
+            class="servicio"
+            [class.servicio--activo]="servicio()?.id === s.id"
+            [class.servicio--ancho]="s.id === 'otro'"
+            (click)="elegirServicio(s)">
+            <span class="serif servicio__inicial">{{ s.inicial }}</span>
+            <span class="servicio__nombre">{{ s.nombre }}</span>
+            <span class="servicio__detalle">{{ s.detalle }}</span>
+          </button>
+        }
+      </div>
+    </div>
 
-    <ion-item>
-      <ion-input
-        label="Servicio"
-        labelPlacement="stacked"
-        placeholder="Ejemplo: Corte de cabello"
-        formControlName="servicio">
-      </ion-input>
-    </ion-item>
+    <div class="tarjeta monto">
+      <div class="monto__cabecera">
+        <span class="etiqueta-seccion">Valor cobrado</span>
+        <button type="button" class="monto__limpiar" (click)="limpiar()">Limpiar</button>
+      </div>
+      <span class="serif monto__valor" [class.monto__valor--vacio]="!monto()">{{ montoTexto() }}</span>
+      <div class="teclado">
+        @for (t of teclas; track t) {
+          <button
+            type="button"
+            class="tecla"
+            [attr.aria-label]="t === borrar ? 'Borrar' : null"
+            (click)="presionar(t)">
+            {{ t }}
+          </button>
+        }
+      </div>
+    </div>
 
-    <ion-item>
-      <ion-input
-        label="Monto"
-        labelPlacement="stacked"
-        type="number"
-        formControlName="monto">
-      </ion-input>
-    </ion-item>
+    <div class="grupo">
+      <span class="etiqueta-seccion">Propina</span>
+      <div class="propinas">
+        @for (p of propinas; track p.valor) {
+          <button
+            type="button"
+            class="propina"
+            [class.propina--activa]="propina() === p.valor"
+            (click)="propina.set(p.valor)">
+            {{ p.texto }}
+          </button>
+        }
+      </div>
+    </div>
 
-    <ion-item>
-      <ion-input
-        label="Propina"
-        labelPlacement="stacked"
-        type="number"
-        formControlName="propina">
-      </ion-input>
-    </ion-item>
+    <div class="momento">
+      <div class="tarjeta momento__dato momento__dato--fecha">
+        <span class="etiqueta">Fecha</span>
+        <span class="momento__valor">Hoy, {{ fechaTexto() }}</span>
+      </div>
+      <div class="tarjeta momento__dato momento__dato--hora">
+        <span class="etiqueta">Hora</span>
+        <span class="momento__valor">{{ hora() }}</span>
+      </div>
+    </div>
 
-    <ion-item>
-      <ion-input
-        label="Fecha"
-        labelPlacement="stacked"
-        type="date"
-        formControlName="fecha">
-      </ion-input>
-    </ion-item>
+    <div class="grupo">
+      <label class="etiqueta-seccion" for="notas">
+        Notas <span class="opcional">(opcional)</span>
+      </label>
+      <input
+        id="notas"
+        class="campo"
+        placeholder="Cliente nuevo, referido, etc."
+        [value]="notas()"
+        (input)="escribirNotas($event)">
+    </div>
 
-    <ion-item>
-      <ion-input
-        label="Hora"
-        labelPlacement="stacked"
-        type="time"
-        formControlName="hora">
-      </ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-textarea
-        label="Notas"
-        labelPlacement="stacked"
-        formControlName="notas">
-      </ion-textarea>
-    </ion-item>
-
-    <ion-button
-      type="submit"
-      expand="block"
-      class="ion-margin-top">
+    <button
+      type="button"
+      class="guardar"
+      [class.guardar--activo]="puedeGuardar()"
+      [disabled]="!puedeGuardar()"
+      (click)="guardar()">
       Guardar ganancia
-    </ion-button>
+    </button>
 
-  </form>
-
+  </div>
 </ion-content>
+
+@if (guardada(); as g) {
+  <div class="confirmacion" role="status">
+    <div class="confirmacion__circulo">
+      <span class="confirmacion__check" aria-hidden="true">
+        <span></span><span></span>
+      </span>
+    </div>
+    <div class="confirmacion__textos">
+      <span class="confirmacion__titulo">Ganancia registrada</span>
+      <span class="serif confirmacion__monto">{{ g.monto }}</span>
+      <span class="confirmacion__detalle">{{ g.servicio }} · {{ g.hora }}</span>
+    </div>
+  </div>
+}

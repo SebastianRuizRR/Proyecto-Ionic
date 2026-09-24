@@ -1,13 +1,72 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>inicio</ion-title>
-  </ion-toolbar>
+<ion-header class="encabezado-app ion-no-border">
+  <app-encabezado [antetitulo]="antetitulo()" titulo="Resumen" />
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">inicio</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <div class="contenido">
+
+    <section class="tarjeta hoy">
+      <div class="hoy__cabecera">
+        <span class="hoy__titulo">Ganancias de hoy</span>
+        <span class="hoy__fecha">{{ fechaCorta() }}</span>
+      </div>
+
+      <div class="hoy__total">
+        <span class="serif hoy__monto">{{ totalHoy() }}</span>
+        <span class="hoy__moneda">CLP</span>
+      </div>
+
+      <div class="hoy__chips">
+        <span class="chip chip--acento">
+          {{ cantidadHoy() }} {{ cantidadHoy() === 1 ? 'servicio' : 'servicios' }}
+        </span>
+        @if (propinasHoy() > 0) {
+          <span class="chip">{{ propinasHoyTexto() }} en propinas</span>
+        }
+      </div>
+
+      <a class="boton-principal" routerLink="/app/registrar">
+        <span class="boton-principal__mas" aria-hidden="true">
+          <span></span><span></span>
+        </span>
+        Registrar ganancia
+      </a>
+    </section>
+
+    <div class="resumenes">
+      <div class="tarjeta resumen">
+        <span class="etiqueta">Semana</span>
+        <span class="serif resumen__valor">{{ totalSemana() }}</span>
+      </div>
+      <div class="tarjeta resumen">
+        <span class="etiqueta">Mes</span>
+        <span class="serif resumen__valor">{{ totalMes() }}</span>
+      </div>
+      <div class="tarjeta resumen">
+        <span class="etiqueta">Cortes</span>
+        <span class="serif resumen__valor">{{ cortesMes() }}</span>
+      </div>
+    </div>
+
+    <div class="seccion">
+      <span class="seccion__titulo">Últimas ganancias</span>
+      <a class="seccion__enlace" routerLink="/app/historial">Ver historial</a>
+    </div>
+
+    <div class="tarjeta lista-filas">
+      @for (g of ultimas(); track g.id) {
+        <a class="fila" [routerLink]="['/app/ganancia', g.id]">
+          <span class="serif inicial">{{ g.inicial }}</span>
+          <span class="fila__texto">
+            <span class="fila__nombre">{{ g.nombre }}</span>
+            <span class="fila__sub">{{ g.cuando }}</span>
+          </span>
+          <span class="fila__monto">{{ g.monto }}</span>
+        </a>
+      } @empty {
+        <p class="vacio">Aún no registras ganancias. Toca «Registrar ganancia» para empezar.</p>
+      }
+    </div>
+
+  </div>
 </ion-content>

@@ -1,13 +1,123 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>crear-cuenta</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content>
+  <form class="acceso" novalidate (submit)="crear($event)">
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">crear-cuenta</ion-title>
-    </ion-toolbar>
-  </ion-header>
+    <div class="barra">
+      <a class="volver" routerLink="/login" aria-label="Volver a iniciar sesión">
+        <span class="volver__flecha"></span>
+      </a>
+      <div class="marca">
+        <svg viewBox="0 0 64 32" width="28" height="14" fill="currentColor" aria-hidden="true">
+          <path d="M32 12C28 6 20 6 16 12C12 18 6 18 2 12C2 22 12 28 22 24C27 22 30 18 32 16C34 18 37 22 42 24C52 28 62 22 62 12C58 18 52 18 48 12C44 6 36 6 32 12Z" />
+        </svg>
+        <span class="serif marca__nombre">FadeCash</span>
+      </div>
+    </div>
+
+    <div class="acceso__intro intro">
+      <h1 class="acceso__titulo">Crear cuenta</h1>
+      <span class="acceso__bajada">Empieza a registrar tus cortes en segundos.</span>
+    </div>
+
+    <div class="acceso__campo">
+      <label class="etiqueta-seccion" for="cc-nombre">Nombre</label>
+      <input
+        id="cc-nombre"
+        class="campo acceso__input"
+        [class.acceso__input--error]="errores().nombre"
+        autocomplete="name"
+        placeholder="Cómo te llaman los clientes"
+        [value]="nombre()"
+        (input)="escribir('nombre', $event)">
+      @if (errores().nombre) {
+        <span class="acceso__error">{{ errores().nombre }}</span>
+      }
+    </div>
+
+    <div class="acceso__campo">
+      <label class="etiqueta-seccion" for="cc-barberia">
+        Barbería <span class="opcional">(opcional)</span>
+      </label>
+      <input
+        id="cc-barberia"
+        class="campo acceso__input"
+        autocomplete="organization"
+        placeholder="Dónde trabajas"
+        [value]="barberia()"
+        (input)="escribir('barberia', $event)">
+    </div>
+
+    <div class="acceso__campo">
+      <label class="etiqueta-seccion" for="cc-email">Correo</label>
+      <input
+        id="cc-email"
+        class="campo acceso__input"
+        [class.acceso__input--error]="errores().email"
+        type="email"
+        autocomplete="email"
+        placeholder="tu@correo.cl"
+        [value]="email()"
+        (input)="escribir('email', $event)">
+      @if (errores().email) {
+        <span class="acceso__error">{{ errores().email }}</span>
+      }
+    </div>
+
+    <div class="acceso__campo">
+      <label class="etiqueta-seccion" for="cc-password">Contraseña</label>
+      <div class="acceso__clave">
+        <input
+          id="cc-password"
+          class="campo acceso__input"
+          [class.acceso__input--error]="errores().password"
+          [type]="mostrarPassword() ? 'text' : 'password'"
+          autocomplete="new-password"
+          placeholder="Mínimo 8 caracteres"
+          [value]="password()"
+          (input)="escribir('password', $event)">
+        <button type="button" class="acceso__mostrar" (click)="mostrarPassword.set(!mostrarPassword())">
+          {{ mostrarPassword() ? 'Ocultar' : 'Mostrar' }}
+        </button>
+      </div>
+      <div class="seguridad">
+        <div class="seguridad__barras">
+          @for (color of barrasSeguridad(); track $index) {
+            <span class="seguridad__barra" [style.background]="color"></span>
+          }
+        </div>
+        <span class="seguridad__etiqueta">{{ etiquetaSeguridad() }}</span>
+      </div>
+      @if (errores().password) {
+        <span class="acceso__error">{{ errores().password }}</span>
+      }
+    </div>
+
+    <button
+      type="button"
+      class="terminos"
+      role="checkbox"
+      [attr.aria-checked]="terminos()"
+      (click)="alternarTerminos()">
+      <span
+        class="terminos__caja"
+        [class.terminos__caja--activa]="terminos()"
+        [class.terminos__caja--error]="errores().terminos">
+        <span class="terminos__check"></span>
+      </span>
+      <span class="terminos__texto">
+        Acepto los <strong>Términos</strong> y la <strong>Política de privacidad</strong>.
+      </span>
+    </button>
+
+    <button type="submit" class="acceso__enviar" [disabled]="cargando()">
+      {{ cargando() ? 'Creando cuenta…' : 'Crear cuenta' }}
+    </button>
+
+    <div class="acceso__relleno"></div>
+
+    <div class="acceso__pie">
+      <span>¿Ya tienes cuenta?</span>
+      <a class="acceso__enlace" routerLink="/login">Iniciar sesión</a>
+    </div>
+
+  </form>
 </ion-content>

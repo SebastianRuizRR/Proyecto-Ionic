@@ -1,0 +1,234 @@
+.estadisticas {
+  gap: 13px;
+}
+
+.destacados {
+  display: flex;
+  gap: 10px;
+}
+
+.destacado {
+  flex: 1;
+  min-width: 0;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.destacado__nombre {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.destacado__monto {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.destacado__monto--acento {
+  color: var(--acc);
+}
+
+.bloque {
+  border-radius: 20px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.bloque--calendario {
+  gap: 12px;
+}
+
+.bloque__cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bloque__titulo {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.bloque__ayuda {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink3);
+}
+
+.texto-suave {
+  font-size: 13px;
+  color: var(--ink3);
+  line-height: 1.45;
+}
+
+.barra {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.barra__textos {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.barra__nombre {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.barra__valor {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink3);
+}
+
+.barra__pista {
+  height: 9px;
+  border-radius: 6px;
+  background: var(--surf2);
+  overflow: hidden;
+}
+
+.barra__relleno {
+  height: 100%;
+  border-radius: 6px;
+  background: var(--acc);
+  transform-origin: left center;
+  animation: grow 0.5s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+}
+
+.calendario {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+}
+
+.calendario__dia-semana {
+  text-align: center;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--ink3);
+  letter-spacing: 0.04em;
+}
+
+.celda {
+  position: relative;
+  height: 42px;
+  padding: 0;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  background: none;
+  color: var(--ink2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.celda--futura {
+  color: var(--ink3);
+}
+
+.celda--con-total {
+  border-color: var(--line);
+  background: var(--surf2);
+  color: var(--ink);
+}
+
+.celda--elegida {
+  border-color: transparent;
+  background: var(--acc);
+  color: var(--on-acc);
+}
+
+.celda--vacia {
+  pointer-events: none;
+}
+
+.celda__punto {
+  width: 5px;
+  height: 5px;
+  border-radius: 3px;
+}
+
+.celda__punto--visible {
+  background: var(--acc);
+}
+
+.celda--elegida .celda__punto--visible {
+  background: var(--on-acc);
+}
+
+.dia {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.dia__textos {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.dia__fecha {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.dia__total {
+  font-size: 30px;
+  line-height: 1;
+}
+
+.dia__lista {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dia__cantidad {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink2);
+}
+
+.dia__fila {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 0;
+  border-top: 1px solid var(--line);
+}
+
+.dia__hora {
+  width: 44px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink3);
+  font-variant-numeric: tabular-nums;
+}
+
+.dia__nombre {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.dia__monto {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink2);
+}

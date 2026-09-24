@@ -33,5 +33,282 @@
  */
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import '@ionic/angular/css/palettes/dark.system.css';
+@import '@ionic/angular/css/palettes/dark.class.css';
+
+/* ----------------------------------------------------------------------------
+ * Diseño "Barbería Ganancias"
+ * ------------------------------------------------------------------------- */
+
+body {
+  font-family: var(--fuente);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+ion-content {
+  --background: var(--bg);
+  --color: var(--ink);
+}
+
+ion-content::part(scroll) {
+  scrollbar-width: none;
+}
+
+ion-header.encabezado-app {
+  background: var(--bg);
+  box-shadow: none;
+}
+
+.contenido {
+  padding: 4px 20px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.tarjeta {
+  background: var(--surf);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+}
+
+.serif {
+  font-family: var(--fuente-serif);
+  font-weight: 400;
+}
+
+.etiqueta {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--ink3);
+}
+
+.etiqueta-seccion {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink3);
+}
+
+.campo {
+  height: 52px;
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surf);
+  color: var(--ink);
+  font-family: var(--fuente);
+  font-size: 14px;
+  padding: 0 15px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.campo:focus {
+  border-color: var(--acc);
+}
+
+.campo::placeholder {
+  color: var(--ink3);
+}
+
+button {
+  font-family: var(--fuente);
+}
+
+/* Filas de ganancias (Inicio, Historial) */
+.lista-filas {
+  overflow: hidden;
+}
+
+.fila {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-top: 1px solid var(--line);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.fila:first-child {
+  border-top: none;
+}
+
+.fila__texto {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.fila__nombre {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.fila__sub {
+  font-size: 12px;
+  color: var(--ink3);
+}
+
+.fila__monto {
+  font-family: var(--fuente-serif);
+  font-size: 20px;
+}
+
+@keyframes pop {
+  from { transform: scale(0.6); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes rise {
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes grow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+/* Pantallas de acceso (Login, Crear cuenta) */
+.acceso {
+  min-height: 100%;
+  box-sizing: border-box;
+  padding: calc(var(--ion-safe-area-top, 0px) + 36px) 24px calc(var(--ion-safe-area-bottom, 0px) + 38px);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: rise 0.28s ease-out both;
+}
+
+.acceso__intro {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.acceso__titulo {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.acceso__bajada {
+  font-size: 14px;
+  color: var(--ink2);
+}
+
+.acceso__campo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.acceso__input {
+  height: 54px;
+  font-size: 15px;
+  padding: 0 16px;
+}
+
+.acceso__input--error {
+  border-color: var(--err);
+}
+
+.acceso__clave {
+  position: relative;
+  display: flex;
+
+  .acceso__input {
+    flex: 1;
+    min-width: 0;
+    padding-right: 84px;
+  }
+}
+
+.acceso__mostrar {
+  position: absolute;
+  right: 8px;
+  top: 9px;
+  height: 36px;
+  padding: 0 12px;
+  border: none;
+  border-radius: 11px;
+  background: var(--surf2);
+  color: var(--ink2);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.acceso__error,
+.acceso__info {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--err);
+}
+
+.acceso__info {
+  color: var(--ok);
+}
+
+.acceso__enviar {
+  height: 58px;
+  border: none;
+  border-radius: 18px;
+  background: var(--acc);
+  color: var(--on-acc);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.1s, filter 0.15s;
+
+  &:hover {
+    filter: brightness(1.06);
+  }
+
+  &:active {
+    transform: scale(0.99);
+  }
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.8;
+  }
+}
+
+.acceso__relleno {
+  flex: 1;
+  min-height: 12px;
+}
+
+.acceso__pie {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--ink2);
+}
+
+.acceso__enlace {
+  border: none;
+  background: none;
+  padding: 4px 2px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--acc);
+  text-decoration: none;
+  cursor: pointer;
+}

@@ -1,22 +1,76 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Ingresar</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content>
+  <form class="acceso" novalidate (submit)="entrar($event)">
 
-<ion-content class="ion-padding">
-  <h1>Ganancias Peluquería</h1>
+    <div class="marca">
+      <div class="marca__logo">
+        <svg viewBox="0 0 64 32" width="40" height="20" fill="currentColor" aria-hidden="true">
+          <path d="M32 12C28 6 20 6 16 12C12 18 6 18 2 12C2 22 12 28 22 24C27 22 30 18 32 16C34 18 37 22 42 24C52 28 62 22 62 12C58 18 52 18 48 12C44 6 36 6 32 12Z" />
+        </svg>
+      </div>
+      <div class="marca__textos">
+        <span class="serif marca__nombre">FadeCash</span>
+        <span class="acceso__bajada">Tus ganancias, corte a corte.</span>
+      </div>
+    </div>
 
+    <div class="acceso__intro">
+      <h1 class="acceso__titulo">Iniciar sesión</h1>
+      <span class="acceso__bajada">Ingresa para ver tu resumen del día.</span>
+    </div>
 
-  <ion-button expand="block" routerLink="/app/inicio">
-    Entrar
-  </ion-button>
+    <div class="acceso__campo">
+      <label class="etiqueta-seccion" for="login-email">Correo</label>
+      <input
+        id="login-email"
+        class="campo acceso__input"
+        [class.acceso__input--error]="errores().email"
+        type="email"
+        autocomplete="email"
+        placeholder="tu@correo.cl"
+        [value]="email()"
+        (input)="escribir('email', $event)">
+      @if (errores().email) {
+        <span class="acceso__error">{{ errores().email }}</span>
+      }
+    </div>
 
-  <ion-button
-    expand="block"
-    fill="clear"
-    routerLink="/crear-cuenta"
-  >
-    Crear cuenta
-  </ion-button>
+    <div class="acceso__campo">
+      <div class="clave-cabecera">
+        <label class="etiqueta-seccion" for="login-password">Contraseña</label>
+        <button type="button" class="olvide" (click)="recuperar()">¿Olvidaste tu contraseña?</button>
+      </div>
+      <div class="acceso__clave">
+        <input
+          id="login-password"
+          class="campo acceso__input"
+          [class.acceso__input--error]="errores().password"
+          [type]="mostrarPassword() ? 'text' : 'password'"
+          autocomplete="current-password"
+          placeholder="Mínimo 6 caracteres"
+          [value]="password()"
+          (input)="escribir('password', $event)">
+        <button type="button" class="acceso__mostrar" (click)="mostrarPassword.set(!mostrarPassword())">
+          {{ mostrarPassword() ? 'Ocultar' : 'Mostrar' }}
+        </button>
+      </div>
+      @if (errores().password) {
+        <span class="acceso__error">{{ errores().password }}</span>
+      }
+      @if (info()) {
+        <span class="acceso__info">{{ info() }}</span>
+      }
+    </div>
+
+    <button type="submit" class="acceso__enviar" [disabled]="cargando()">
+      {{ cargando() ? 'Ingresando…' : 'Iniciar sesión' }}
+    </button>
+
+    <div class="acceso__relleno"></div>
+
+    <div class="acceso__pie">
+      <span>¿No tienes cuenta?</span>
+      <a class="acceso__enlace" routerLink="/crear-cuenta">Crear cuenta</a>
+    </div>
+
+  </form>
 </ion-content>

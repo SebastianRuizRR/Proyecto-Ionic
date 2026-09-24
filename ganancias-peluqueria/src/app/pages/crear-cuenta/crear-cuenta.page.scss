@@ -1,0 +1,140 @@
+.barra {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.volver {
+  width: 42px;
+  height: 42px;
+  border-radius: 21px;
+  border: 1px solid var(--line);
+  background: var(--surf);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+
+  &:hover {
+    border-color: var(--acc);
+  }
+}
+
+.volver__flecha {
+  width: 10px;
+  height: 10px;
+  border-left: 2.5px solid var(--ink);
+  border-bottom: 2.5px solid var(--ink);
+  transform: translateX(2px) rotate(45deg);
+}
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--acc);
+}
+
+.marca__nombre {
+  font-size: 24px;
+  color: var(--ink);
+}
+
+.intro {
+  padding-top: 10px;
+
+  .acceso__titulo {
+    font-size: 26px;
+  }
+}
+
+.opcional {
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.seguridad {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.seguridad__barras {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 5px;
+}
+
+.seguridad__barra {
+  height: 5px;
+  border-radius: 3px;
+  transition: background 0.2s;
+}
+
+.seguridad__etiqueta {
+  width: 48px;
+  text-align: right;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink3);
+}
+
+.terminos {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  border: none;
+  background: none;
+  padding: 4px 0;
+  cursor: pointer;
+  text-align: left;
+}
+
+.terminos__caja {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  box-sizing: border-box;
+  border-radius: 7px;
+  border: 1.5px solid var(--ink3);
+  background: var(--surf);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+
+.terminos__caja--error {
+  border-color: var(--err);
+}
+
+.terminos__caja--activa {
+  border-color: var(--acc);
+  background: var(--acc);
+}
+
+.terminos__check {
+  width: 10px;
+  height: 5px;
+  border-left: 2px solid var(--on-acc);
+  border-bottom: 2px solid var(--on-acc);
+  transform: translateY(-1px) rotate(-45deg);
+  opacity: 0;
+}
+
+.terminos__caja--activa .terminos__check {
+  opacity: 1;
+}
+
+.terminos__texto {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--ink2);
+
+  strong {
+    color: var(--acc);
+    font-weight: 600;
+  }
+}

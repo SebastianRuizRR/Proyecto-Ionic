@@ -1,51 +1,79 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Historial</ion-title>
-  </ion-toolbar>
+<ion-header class="encabezado-app ion-no-border">
+  <app-encabezado antetitulo="Todos los registros" titulo="Historial" />
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content>
+  <div class="contenido historial">
 
-  <ion-button
-    expand="block"
-    routerLink="/app/registrar">
-    Nueva ganancia
-  </ion-button>
+    <input
+      class="campo buscador"
+      type="search"
+      placeholder="Buscar servicio o monto"
+      [value]="busqueda()"
+      (input)="buscar($event)">
 
-  <ion-list>
-    @for (
-      ganancia of gananciasService.ganancias();
-      track ganancia.id
-    ) {
-      <ion-item
-        button
-        detail
-        [routerLink]="['/app/ganancia', ganancia.id]">
+    <div class="segmento" role="tablist">
+      @for (p of periodos; track p.id) {
+        <button
+          type="button"
+          role="tab"
+          class="segmento__opcion"
+          [class.segmento__opcion--activa]="periodo() === p.id"
+          [attr.aria-selected]="periodo() === p.id"
+          (click)="periodo.set(p.id)">
+          {{ p.texto }}
+        </button>
+      }
+    </div>
 
-        <ion-label>
-          <h2>{{ ganancia.servicio }}</h2>
+    <div class="filtros">
+      @for (f of filtros; track f.id) {
+        <button
+          type="button"
+          class="filtro"
+          [class.filtro--activo]="filtro() === f.id"
+          (click)="filtro.set(f.id)">
+          {{ f.nombre }}
+        </button>
+      }
+    </div>
 
-          <p>
-            {{ ganancia.fecha }} · {{ ganancia.hora }}
-          </p>
+    <div class="tarjeta total">
+      <div class="total__textos">
+        <span class="total__etiqueta">{{ etiquetaTotal() }}</span>
+        <span class="total__cantidad">{{ cantidad() }} {{ cantidad() === 1 ? 'registro' : 'registros' }}</span>
+      </div>
+      <span class="serif total__monto">{{ total() }}</span>
+    </div>
 
-          <p>
-            Total:
-            {{
-              ganancia.monto + ganancia.propina
-                | currency:'CLP':'symbol-narrow':'1.0-0'
-            }}
-          </p>
-        </ion-label>
-
-      </ion-item>
+    @for (grupo of grupos(); track grupo.fecha) {
+      <div class="grupo">
+        <div class="grupo__cabecera">
+          <span class="grupo__etiqueta">{{ grupo.etiqueta }}</span>
+          <span class="grupo__total">{{ grupo.total }}</span>
+        </div>
+        <div class="tarjeta lista-filas">
+          @for (f of grupo.filas; track f.id) {
+            <a class="fila" [routerLink]="['/app/ganancia', f.id]">
+              <span class="hora">{{ f.hora }}</span>
+              <span class="fila__texto">
+                <span class="fila__nombre">{{ f.nombre }}</span>
+                @if (f.detalle) {
+                  <span class="fila__sub">{{ f.detalle }}</span>
+                }
+              </span>
+              <span class="fila__monto">{{ f.monto }}</span>
+            </a>
+          }
+        </div>
+      </div>
     } @empty {
-      <ion-item>
-        <ion-label>
-          Todavía no existen ganancias registradas.
-        </ion-label>
-      </ion-item>
+      <div class="vacio">
+        <div class="vacio__icono"></div>
+        <span class="vacio__titulo">Sin registros</span>
+        <span class="vacio__texto">No hay ganancias que coincidan con este filtro.</span>
+      </div>
     }
-  </ion-list>
 
+  </div>
 </ion-content>
