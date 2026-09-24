@@ -1,2 +1,63 @@
 // For information on how to create your own theme, please refer to:
 // https://ionicframework.com/docs/theming/
+
+// Tokens del diseño "Barbería Ganancias" (Claude Design).
+// El tema oscuro se activa con la clase .ion-palette-dark en <html> (TemaService).
+
+:root {
+  --bg: #f6f3ee;
+  --surf: #ffffff;
+  --surf2: #efeae1;
+  --ink: #17140f;
+  --ink2: rgba(23, 20, 15, 0.6);
+  --ink3: rgba(23, 20, 15, 0.34);
+  --line: rgba(23, 20, 15, 0.1);
+  --acc: #9a6b2f;
+  --acc-soft: rgba(154, 107, 47, 0.13);
+  --on-acc: #fffdf8;
+  --ok: #3f6b4f;
+  --err: #a8402c;
+  --sombra-tarjeta: 0 12px 28px -18px rgba(23, 20, 15, 0.35);
+
+  --fuente: 'Archivo', system-ui, sans-serif;
+  --fuente-serif: 'Instrument Serif', Georgia, serif;
+
+  --ion-font-family: var(--fuente);
+  --ion-background-color: var(--bg);
+  --ion-text-color: var(--ink);
+
+  --ion-color-primary: #9a6b2f;
+  --ion-color-primary-rgb: 154, 107, 47;
+  --ion-color-primary-contrast: #fffdf8;
+  --ion-color-primary-contrast-rgb: 255, 253, 248;
+  --ion-color-primary-shade: #885e29;
+  --ion-color-primary-tint: #a47a44;
+}
+
+:root.ion-palette-dark {
+  --bg: #100e0b;
+  --surf: #1a1713;
+  --surf2: #231f19;
+  --ink: #f4efe6;
+  --ink2: rgba(244, 239, 230, 0.58);
+  --ink3: rgba(244, 239, 230, 0.32);
+  --line: rgba(244, 239, 230, 0.1);
+  --acc: #c09a65;
+  --acc-soft: rgba(192, 154, 101, 0.13);
+  --on-acc: #14100a;
+  --ok: #88bd9c;
+  --err: #e38d77;
+  --sombra-tarjeta: 0 12px 28px -18px rgba(0, 0, 0, 0.6);
+
+  --ion-background-color: var(--bg);
+  --ion-background-color-rgb: 16, 14, 11;
+  --ion-text-color: var(--ink);
+  --ion-text-color-rgb: 244, 239, 230;
+
+  --ion-color-primary: #c09a65;
+  --ion-color-primary-rgb: 192, 154, 101;
+  --ion-color-primary-contrast: #14100a;
+  --ion-color-primary-contrast-rgb: 20, 16, 10;
+  --ion-color-primary-shade: #a98859;
+  --ion-color-primary-tint: #c6a474;
+}

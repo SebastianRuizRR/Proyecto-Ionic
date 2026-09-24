@@ -1,0 +1,25 @@
+<div class="encabezado">
+  <div class="encabezado__textos">
+    <span class="encabezado__antetitulo">{{ antetitulo() }}</span>
+    <h1 class="encabezado__titulo">{{ titulo() }}</h1>
+  </div>
+
+  <div class="encabezado__acciones">
+    <button
+      type="button"
+      class="encabezado__tema"
+      [attr.aria-label]="tema.oscuro() ? 'Usar tema claro' : 'Usar tema oscuro'"
+      (click)="tema.alternar()">
+      <span class="encabezado__punto"></span>
+    </button>
+
+    <button
+      type="button"
+      class="encabezado__usuario"
+      title="Cerrar sesión"
+      aria-label="Cerrar sesión"
+      (click)="cerrarSesion()">
+      {{ auth.iniciales() }}
+    </button>
+  </div>
+</div>

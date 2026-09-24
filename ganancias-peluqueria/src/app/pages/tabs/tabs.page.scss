@@ -1,0 +1,114 @@
+ion-tab-bar {
+  --background: color-mix(in srgb, var(--bg) 88%, transparent);
+  --border: 1px solid var(--line);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-sizing: border-box;
+  height: calc(72px + var(--ion-safe-area-bottom, 0px));
+  padding: 8px 14px calc(var(--ion-safe-area-bottom, 0px) + 10px);
+}
+
+ion-tab-button {
+  --color: var(--ink3);
+  --color-selected: var(--acc);
+  --ripple-color: transparent;
+  --padding-top: 9px;
+  --padding-bottom: 7px;
+  gap: 5px;
+  border-radius: 14px;
+}
+
+ion-label {
+  margin: 0;
+  font-family: var(--fuente);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.icono {
+  width: 18px;
+  height: 18px;
+
+  span {
+    display: block;
+    background: currentColor;
+    border-radius: 2px;
+  }
+}
+
+.icono-inicio {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 3px;
+}
+
+.icono-historial {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3.5px;
+
+  span {
+    height: 2.5px;
+  }
+
+  span:last-child {
+    width: 70%;
+  }
+}
+
+.icono-estadisticas {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+
+  span {
+    flex: 1;
+  }
+
+  span:nth-child(1) { height: 8px; }
+  span:nth-child(2) { height: 16px; }
+  span:nth-child(3) { height: 11px; }
+}
+
+// El botón Registrar va siempre en el color de acento; al estar activo
+// el ícono se rellena.
+.tab-registrar {
+  --color: var(--acc);
+}
+
+.icono-registrar {
+  position: relative;
+  width: 22px;
+  height: 22px;
+  border-radius: 8px;
+  margin: -2px 0;
+
+  .mas-h {
+    position: absolute;
+    top: 9.5px;
+    left: 2px;
+    width: 18px;
+    height: 3px;
+  }
+
+  .mas-v {
+    position: absolute;
+    left: 9.5px;
+    top: 2px;
+    width: 3px;
+    height: 18px;
+  }
+}
+
+.tab-registrar.tab-selected .icono-registrar {
+  background: var(--acc);
+  box-shadow: 0 0 0 5px var(--acc);
+  color: var(--on-acc);
+}
+
+.tab-registrar.tab-selected ion-label {
+  margin-top: 4px;
+}

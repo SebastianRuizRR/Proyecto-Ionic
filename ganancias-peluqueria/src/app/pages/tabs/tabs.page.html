@@ -2,22 +2,31 @@
   <ion-tab-bar slot="bottom">
 
     <ion-tab-button tab="inicio" href="/app/inicio">
-      <ion-icon name="home-outline"></ion-icon>
+      <div class="icono icono-inicio" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+      </div>
       <ion-label>Inicio</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="registrar" href="/app/registrar">
-      <ion-icon name="add-circle-outline"></ion-icon>
+    <ion-tab-button tab="registrar" href="/app/registrar" class="tab-registrar">
+      <div class="icono icono-registrar" aria-hidden="true">
+        <span class="mas-h"></span>
+        <span class="mas-v"></span>
+      </div>
       <ion-label>Registrar</ion-label>
     </ion-tab-button>
 
     <ion-tab-button tab="historial" href="/app/historial">
-      <ion-icon name="list-outline"></ion-icon>
+      <div class="icono icono-historial" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
       <ion-label>Historial</ion-label>
     </ion-tab-button>
 
     <ion-tab-button tab="estadisticas" href="/app/estadisticas">
-      <ion-icon name="bar-chart-outline"></ion-icon>
+      <div class="icono icono-estadisticas" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
       <ion-label>Estadísticas</ion-label>
     </ion-tab-button>
 

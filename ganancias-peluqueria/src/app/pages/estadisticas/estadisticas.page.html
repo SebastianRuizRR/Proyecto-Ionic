@@ -1,13 +1,94 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>estadisticas</ion-title>
-  </ion-toolbar>
+<ion-header class="encabezado-app ion-no-border">
+  <app-encabezado [antetitulo]="etiquetaMes()" titulo="Estadísticas" />
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">estadisticas</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <div class="contenido estadisticas">
+
+    <div class="destacados">
+      <div class="tarjeta destacado">
+        <span class="etiqueta">Más rentable</span>
+        <span class="destacado__nombre">{{ masRentable().nombre }}</span>
+        <span class="serif destacado__monto destacado__monto--acento">{{ masRentable().monto }}</span>
+      </div>
+      <div class="tarjeta destacado">
+        <span class="etiqueta">Total del mes</span>
+        <span class="destacado__nombre">{{ etiquetaMes() }}</span>
+        <span class="serif destacado__monto">{{ totalMes() }}</span>
+      </div>
+    </div>
+
+    <section class="tarjeta bloque">
+      <span class="bloque__titulo">Distribución por servicio</span>
+      @for (d of distribucion(); track d.nombre) {
+        <div class="barra">
+          <div class="barra__textos">
+            <span class="barra__nombre">{{ d.nombre }}</span>
+            <span class="barra__valor">{{ d.porcentaje }} · {{ d.monto }}</span>
+          </div>
+          <div class="barra__pista">
+            <div class="barra__relleno" [style.width]="d.ancho"></div>
+          </div>
+        </div>
+      } @empty {
+        <span class="texto-suave">Aún no hay ganancias este mes.</span>
+      }
+    </section>
+
+    <section class="tarjeta bloque bloque--calendario">
+      <div class="bloque__cabecera">
+        <span class="bloque__titulo">{{ etiquetaMes() }}</span>
+        <span class="bloque__ayuda">Toca un día</span>
+      </div>
+      <div class="calendario">
+        @for (d of diasSemana; track $index) {
+          <span class="calendario__dia-semana">{{ d }}</span>
+        }
+        @for (c of celdas(); track c.clave) {
+          @if (c.dia) {
+            <button
+              type="button"
+              class="celda"
+              [class.celda--con-total]="c.total > 0"
+              [class.celda--futura]="c.futuro"
+              [class.celda--elegida]="c.fecha === diaElegido()"
+              (click)="diaElegido.set(c.fecha)">
+              <span>{{ c.dia }}</span>
+              <span class="celda__punto" [class.celda__punto--visible]="c.total > 0" [style.opacity]="c.total ? c.intensidad : 0"></span>
+            </button>
+          } @else {
+            <span class="celda celda--vacia"></span>
+          }
+        }
+      </div>
+    </section>
+
+    <section class="tarjeta bloque">
+      <div class="dia">
+        <div class="dia__textos">
+          <span class="etiqueta">Día seleccionado</span>
+          <span class="dia__fecha">{{ etiquetaDia() }}</span>
+        </div>
+        <span class="serif dia__total">{{ totalDia() }}</span>
+      </div>
+
+      @if (cantidadDia() > 0) {
+        <div class="dia__lista">
+          <span class="dia__cantidad">
+            {{ cantidadDia() }} {{ cantidadDia() === 1 ? 'servicio realizado' : 'servicios realizados' }}
+          </span>
+          @for (f of filasDia(); track f.id) {
+            <div class="dia__fila">
+              <span class="dia__hora">{{ f.hora }}</span>
+              <span class="dia__nombre">{{ f.nombre }}</span>
+              <span class="dia__monto">{{ f.monto }}</span>
+            </div>
+          }
+        </div>
+      } @else {
+        <span class="texto-suave">Sin ganancias registradas este día.</span>
+      }
+    </section>
+
+  </div>
 </ion-content>
