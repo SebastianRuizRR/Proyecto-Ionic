@@ -73,11 +73,7 @@ ion-label {
   span:nth-child(3) { height: 11px; }
 }
 
-// El botón Registrar va siempre en el color de acento; al estar activo
-// el ícono se rellena.
-.tab-registrar {
-  --color: var(--acc);
-}
+
 
 .icono-registrar {
   position: relative;

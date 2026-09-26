@@ -87,7 +87,7 @@ export class EditarGananciaPage {
     ]
   });
 
-  guardar(): void {
+  async guardar(): Promise<void> {
     if (this.formulario.invalid) {
       this.formulario.markAllAsTouched();
       return;
@@ -95,13 +95,16 @@ export class EditarGananciaPage {
 
     const datos = this.formulario.getRawValue();
 
-    this.gananciasService.actualizar(this.id, {
-      ...datos,
-      monto: Number(datos.monto),
-      propina: Number(datos.propina)
-    });
+    await this.gananciasService.actualizar(
+      this.id,
+      {
+        ...datos,
+        monto: Number(datos.monto),
+        propina: Number(datos.propina)
+      }
+    );
 
-    this.router.navigate([
+    await this.router.navigate([
       '/app/ganancia',
       this.id
     ]);

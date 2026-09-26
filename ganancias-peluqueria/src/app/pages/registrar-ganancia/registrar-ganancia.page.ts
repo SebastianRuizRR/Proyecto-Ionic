@@ -76,26 +76,38 @@ export class RegistrarGananciaPage implements OnDestroy {
     this.notas.set((evento.target as HTMLInputElement).value);
   }
 
-  guardar(): void {
+  async guardar(): Promise<void> {
     const servicio = this.servicio();
-    if (!this.puedeGuardar() || !servicio) return;
+
+    if (!this.puedeGuardar() || !servicio) {
+      return;
+    }
 
     const hora = horaActual();
-    this.gananciasService.crear({
+
+    await this.gananciasService.crear({
       servicio: servicio.nombre,
       monto: this.monto(),
       propina: this.propina(),
-      fecha: fechaISO(new Date()),
+      fecha: this.hoy(),
       hora,
       notas: this.notas().trim()
     });
 
-    this.guardada.set({ monto: this.montoTexto(), servicio: servicio.nombre, hora });
+    this.guardada.set({
+      monto: this.montoTexto(),
+      servicio: servicio.nombre,
+      hora
+    });
 
     clearTimeout(this.temporizador);
+
     this.temporizador = setTimeout(() => {
       this.reiniciar();
-      this.router.navigate(['/app/inicio']);
+
+      void this.router.navigate([
+        '/app/inicio'
+      ]);
     }, 1900);
   }
 
