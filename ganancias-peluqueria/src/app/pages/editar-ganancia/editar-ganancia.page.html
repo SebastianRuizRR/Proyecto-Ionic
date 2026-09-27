@@ -1,82 +1,75 @@
-<ion-header>
-  <ion-toolbar>
-
-    <ion-buttons slot="start">
-      <ion-back-button
-        defaultHref="/app/historial">
-      </ion-back-button>
-    </ion-buttons>
-
-    <ion-title>Editar ganancia</ion-title>
-
-  </ion-toolbar>
+<ion-header class="encabezado-app ion-no-border">
+  <app-cabecera-secundaria
+    [antetitulo]="antetitulo()"
+    titulo="Editar ganancia"
+    [respaldo]="'/ganancia/' + id()" />
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content>
+  <div class="contenido contenido--secundario editar">
 
-  <form
-    [formGroup]="formulario"
-    (ngSubmit)="guardar()">
+    @if (original()) {
 
-    <ion-item>
-      <ion-input
-        label="Servicio"
-        labelPlacement="stacked"
-        formControlName="servicio">
-      </ion-input>
-    </ion-item>
+      <app-campos-ganancia
+        [servicios]="servicios()"
+        [propinas]="propinas"
+        [conservarMonto]="true"
+        [(servicioId)]="servicioId"
+        [(nombreOtro)]="nombreOtro"
+        [(digitos)]="digitos"
+        [(propina)]="propina"
+        [(propinaLibre)]="propinaLibre" />
 
-    <ion-item>
-      <ion-input
-        label="Monto"
-        labelPlacement="stacked"
-        type="number"
-        formControlName="monto">
-      </ion-input>
-    </ion-item>
+      <div class="momento">
+        <div class="tarjeta momento__dato momento__dato--fecha">
+          <span class="etiqueta">Fecha</span>
+          <div class="momento__fila">
+            <span class="momento__valor">{{ fechaTexto() }}</span>
+            <div class="paso">
+              <button type="button" class="paso__boton" aria-label="Día anterior" (click)="diaAnterior()">‹</button>
+              <button type="button" class="paso__boton" aria-label="Día siguiente" [disabled]="!puedeAvanzarDia()" (click)="diaSiguiente()">›</button>
+            </div>
+          </div>
+        </div>
+        <div class="tarjeta momento__dato momento__dato--hora">
+          <span class="etiqueta">Hora</span>
+          <div class="momento__fila">
+            <span class="momento__valor momento__valor--hora">{{ hora() }}</span>
+            <div class="paso">
+              <button type="button" class="paso__boton paso__boton--angosto" aria-label="15 minutos antes" (click)="horaMenos()">−</button>
+              <button type="button" class="paso__boton paso__boton--angosto" aria-label="15 minutos después" (click)="horaMas()">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
-    <ion-item>
-      <ion-input
-        label="Propina"
-        labelPlacement="stacked"
-        type="number"
-        formControlName="propina">
-      </ion-input>
-    </ion-item>
+      <div class="grupo">
+        <label class="etiqueta-seccion" for="editar-notas">
+          Notas <span class="opcional">(opcional)</span>
+        </label>
+        <input
+          id="editar-notas"
+          class="campo"
+          placeholder="Cliente nuevo, referido, etc."
+          [value]="notas()"
+          (input)="escribirNotas($event)">
+      </div>
 
-    <ion-item>
-      <ion-input
-        label="Fecha"
-        labelPlacement="stacked"
-        type="date"
-        formControlName="fecha">
-      </ion-input>
-    </ion-item>
+      <div class="botones">
+        <button
+          type="button"
+          class="boton-guardar"
+          [class.boton-guardar--activo]="puedeGuardar()"
+          [disabled]="!puedeGuardar()"
+          (click)="guardar()">
+          {{ guardando() ? 'Guardando…' : 'Guardar cambios' }}
+        </button>
+        <button type="button" class="boton-texto" (click)="volver()">Descartar cambios</button>
+      </div>
 
-    <ion-item>
-      <ion-input
-        label="Hora"
-        labelPlacement="stacked"
-        type="time"
-        formControlName="hora">
-      </ion-input>
-    </ion-item>
+    } @else if (listo()) {
+      <p class="no-existe">No encontramos este registro. Puede que se haya eliminado.</p>
+    }
 
-    <ion-item>
-      <ion-textarea
-        label="Notas"
-        labelPlacement="stacked"
-        formControlName="notas">
-      </ion-textarea>
-    </ion-item>
-
-    <ion-button
-      type="submit"
-      expand="block"
-      class="ion-margin-top">
-      Guardar cambios
-    </ion-button>
-
-  </form>
-
+  </div>
 </ion-content>

@@ -5,57 +5,13 @@
 <ion-content>
   <div class="contenido registrar">
 
-    <div class="grupo">
-      <span class="etiqueta-seccion">Tipo de servicio</span>
-      <div class="servicios">
-        @for (s of servicios; track s.id) {
-          <button
-            type="button"
-            class="servicio"
-            [class.servicio--activo]="servicio()?.id === s.id"
-            [class.servicio--ancho]="s.id === 'otro'"
-            (click)="elegirServicio(s)">
-            <span class="serif servicio__inicial">{{ s.inicial }}</span>
-            <span class="servicio__nombre">{{ s.nombre }}</span>
-            <span class="servicio__detalle">{{ s.detalle }}</span>
-          </button>
-        }
-      </div>
-    </div>
-
-    <div class="tarjeta monto">
-      <div class="monto__cabecera">
-        <span class="etiqueta-seccion">Valor cobrado</span>
-        <button type="button" class="monto__limpiar" (click)="limpiar()">Limpiar</button>
-      </div>
-      <span class="serif monto__valor" [class.monto__valor--vacio]="!monto()">{{ montoTexto() }}</span>
-      <div class="teclado">
-        @for (t of teclas; track t) {
-          <button
-            type="button"
-            class="tecla"
-            [attr.aria-label]="t === borrar ? 'Borrar' : null"
-            (click)="presionar(t)">
-            {{ t }}
-          </button>
-        }
-      </div>
-    </div>
-
-    <div class="grupo">
-      <span class="etiqueta-seccion">Propina</span>
-      <div class="propinas">
-        @for (p of propinas; track p.valor) {
-          <button
-            type="button"
-            class="propina"
-            [class.propina--activa]="propina() === p.valor"
-            (click)="propina.set(p.valor)">
-            {{ p.texto }}
-          </button>
-        }
-      </div>
-    </div>
+    <app-campos-ganancia
+      [servicios]="servicios()"
+      [(servicioId)]="servicioId"
+      [(nombreOtro)]="nombreOtro"
+      [(digitos)]="digitos"
+      [(propina)]="propina"
+      [(propinaLibre)]="propinaLibre" />
 
     <div class="momento">
       <div class="tarjeta momento__dato momento__dato--fecha">
@@ -82,11 +38,11 @@
 
     <button
       type="button"
-      class="guardar"
-      [class.guardar--activo]="puedeGuardar()"
+      class="boton-guardar"
+      [class.boton-guardar--activo]="puedeGuardar()"
       [disabled]="!puedeGuardar()"
       (click)="guardar()">
-      Guardar ganancia
+      {{ guardando() ? 'Guardando…' : 'Guardar ganancia' }}
     </button>
 
   </div>

@@ -50,30 +50,34 @@ export const routes: Routes = [
           ),
       },
       {
-        path: 'perfil',
-        loadComponent: () =>
-          import('./pages/perfil/perfil.page').then((m) => m.PerfilPage),
-      },
-      {
-        path: 'ganancia/:id/editar',
-        loadComponent: () =>
-          import(
-            './pages/editar-ganancia/editar-ganancia.page'
-          ).then((m) => m.EditarGananciaPage),
-      },
-      {
-        path: 'ganancia/:id',
-        loadComponent: () =>
-          import(
-            './pages/detalle-ganancia/detalle-ganancia.page'
-          ).then((m) => m.DetalleGananciaPage),
-      },
-      {
         path: '',
         redirectTo: 'inicio',
         pathMatch: 'full',
       },
     ],
+  },
+  // Pantallas completas (sin barra de pestañas), como en el diseño.
+  {
+    path: 'perfil',
+    canActivate: [conSesionGuard],
+    loadComponent: () =>
+      import('./pages/perfil/perfil.page').then((m) => m.PerfilPage),
+  },
+  {
+    path: 'ganancia/:id/editar',
+    canActivate: [conSesionGuard],
+    loadComponent: () =>
+      import(
+        './pages/editar-ganancia/editar-ganancia.page'
+      ).then((m) => m.EditarGananciaPage),
+  },
+  {
+    path: 'ganancia/:id',
+    canActivate: [conSesionGuard],
+    loadComponent: () =>
+      import(
+        './pages/detalle-ganancia/detalle-ganancia.page'
+      ).then((m) => m.DetalleGananciaPage),
   },
   {
     path: '',

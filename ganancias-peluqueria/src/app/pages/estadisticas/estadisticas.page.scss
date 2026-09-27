@@ -48,6 +48,35 @@
   justify-content: space-between;
 }
 
+.bloque__textos {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.paso {
+  display: flex;
+  gap: 5px;
+}
+
+.paso__boton {
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+  border: 1px solid var(--line);
+  background: var(--surf2);
+  color: var(--ink);
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+
+  &:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+}
+
 .bloque__titulo {
   font-size: 14px;
   font-weight: 600;
@@ -206,6 +235,8 @@
 }
 
 .dia__fila {
+  color: var(--ink);
+  text-decoration: none;
   display: flex;
   align-items: center;
   gap: 10px;

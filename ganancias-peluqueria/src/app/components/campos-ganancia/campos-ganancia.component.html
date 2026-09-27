@@ -1,0 +1,82 @@
+<div class="grupo">
+  <span class="etiqueta-seccion">Tipo de servicio</span>
+  <div class="servicios">
+    @for (s of opciones(); track s.id) {
+      <button
+        type="button"
+        class="servicio"
+        [class.servicio--activo]="servicioId() === s.id"
+        [class.servicio--ancho]="s.id === 'otro'"
+        (click)="elegirServicio(s)">
+        @if (s.id !== 'otro') {
+          <app-icono-servicio class="servicio__icono" [nombre]="s.nombre" />
+        }
+        <span class="servicio__nombre">{{ s.nombre }}</span>
+        <span class="servicio__detalle">{{ s.id === 'otro' ? 'Nombre y monto libres' : s.detalle }}</span>
+      </button>
+    }
+  </div>
+
+  @if (esOtro()) {
+    <input
+      class="campo otro"
+      aria-label="Nombre del servicio"
+      placeholder="Nombre del servicio (ej: tinte, cejas, lavado)"
+      maxlength="40"
+      [value]="nombreOtro()"
+      (input)="escribirNombreOtro($event)">
+  }
+</div>
+
+<div class="tarjeta monto">
+  <div class="monto__cabecera">
+    <span class="etiqueta-seccion">Valor cobrado</span>
+    <button type="button" class="monto__limpiar" (click)="limpiar()">Limpiar</button>
+  </div>
+  <span class="serif monto__valor" [class.monto__valor--vacio]="!monto()">{{ montoTexto() }}</span>
+  <div class="teclado">
+    @for (t of teclas; track t) {
+      <button
+        type="button"
+        class="tecla"
+        [attr.aria-label]="t === borrar ? 'Borrar' : null"
+        (click)="presionar(t)">
+        {{ t }}
+      </button>
+    }
+  </div>
+</div>
+
+<div class="grupo">
+  <span class="etiqueta-seccion">Propina</span>
+  <div class="propinas">
+    @for (p of opcionesPropina(); track p.valor) {
+      <button
+        type="button"
+        class="propina"
+        [class.propina--activa]="!propinaLibre() && propina() === p.valor"
+        (click)="elegirPropina(p.valor)">
+        {{ p.texto }}
+      </button>
+    }
+    <button
+      type="button"
+      class="propina"
+      [class.propina--activa]="propinaLibre()"
+      (click)="activarPropinaLibre()">
+      Otra
+    </button>
+  </div>
+
+  @if (propinaLibre()) {
+    <label class="campo propina-libre">
+      <span class="propina-libre__signo">$</span>
+      <input
+        inputmode="numeric"
+        aria-label="Monto de la propina"
+        placeholder="Monto de la propina"
+        [value]="propinaLibreTexto()"
+        (input)="escribirPropina($event)">
+    </label>
+  }
+</div>

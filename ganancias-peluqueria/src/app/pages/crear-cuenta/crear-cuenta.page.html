@@ -108,6 +108,10 @@
       </span>
     </button>
 
+    @if (info()) {
+      <span class="acceso__info">{{ info() }}</span>
+    }
+
     <button type="submit" class="acceso__enviar" [disabled]="cargando()">
       {{ cargando() ? 'Creando cuenta…' : 'Crear cuenta' }}
     </button>

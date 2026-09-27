@@ -54,7 +54,7 @@
         </div>
         <div class="tarjeta lista-filas">
           @for (f of grupo.filas; track f.id) {
-            <a class="fila" [routerLink]="['/app/ganancia', f.id]">
+            <a class="fila" [routerLink]="['/ganancia', f.id]">
               <span class="hora">{{ f.hora }}</span>
               <span class="fila__texto">
                 <span class="fila__nombre">{{ f.nombre }}</span>

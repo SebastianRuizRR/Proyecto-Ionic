@@ -1,0 +1,87 @@
+.editar {
+  gap: 16px;
+}
+
+.momento {
+  display: flex;
+  gap: 9px;
+}
+
+.momento__dato {
+  border-radius: 16px;
+  padding: 12px 10px 12px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.momento__dato--fecha {
+  flex: 1;
+}
+
+.momento__dato--hora {
+  flex: none;
+  width: 140px;
+  box-sizing: border-box;
+}
+
+.momento__fila {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.momento__valor {
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.momento__valor--hora {
+  font-variant-numeric: tabular-nums;
+}
+
+.paso {
+  flex: none;
+  display: flex;
+  gap: 5px;
+}
+
+.paso__boton {
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+  border: 1px solid var(--line);
+  background: var(--surf2);
+  color: var(--ink);
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+
+  &:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+}
+
+.paso__boton--angosto {
+  width: 30px;
+}
+
+.botones {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.no-existe {
+  margin: 16px 0 0;
+  font-size: 14px;
+  color: var(--ink3);
+  text-align: center;
+}

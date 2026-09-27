@@ -1,110 +1,83 @@
-<ion-header>
-  <ion-toolbar>
-
-    <ion-buttons slot="start">
-      <ion-back-button
-        defaultHref="/app/historial">
-      </ion-back-button>
-    </ion-buttons>
-
-    <ion-title>Detalle</ion-title>
-
-  </ion-toolbar>
+<ion-header class="encabezado-app ion-no-border">
+  <app-cabecera-secundaria
+    antetitulo="Registro"
+    titulo="Detalle de ganancia"
+    respaldo="/app/historial" />
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content>
+  <div class="contenido contenido--secundario">
 
-  @if (ganancia(); as item) {
+    @if (vista(); as g) {
 
-    <ion-list>
+      <section class="tarjeta resumen">
+        <div class="resumen__servicio">
+          <span class="resumen__icono">
+            <app-icono-servicio [nombre]="g.servicio" />
+          </span>
+          <div class="resumen__textos">
+            <span class="resumen__nombre">{{ g.servicio }}</span>
+            <span class="resumen__cuando">{{ g.cuando }}</span>
+          </div>
+        </div>
 
-      <ion-item>
-        <ion-label>
-          <h3>Servicio</h3>
-          <p>{{ item.servicio }}</p>
-        </ion-label>
-      </ion-item>
+        <div class="resumen__monto">
+          <span class="serif resumen__valor">{{ g.montoTexto }}</span>
+          <span class="resumen__moneda">CLP</span>
+        </div>
 
-      <ion-item>
-        <ion-label>
-          <h3>Monto</h3>
-          <p>
-            {{
-              item.monto
-                | currency:'CLP':'symbol-narrow':'1.0-0'
-            }}
-          </p>
-        </ion-label>
-      </ion-item>
+        @if (g.propina > 0) {
+          <div class="resumen__propina">
+            <div class="resumen__linea">
+              <span class="resumen__etiqueta">Propina</span>
+              <span class="resumen__dato">{{ g.propinaTexto }}</span>
+            </div>
+            <div class="resumen__linea">
+              <span class="resumen__etiqueta">Total</span>
+              <span class="serif resumen__total">{{ g.totalTexto }}</span>
+            </div>
+          </div>
+        }
+      </section>
 
-      <ion-item>
-        <ion-label>
-          <h3>Propina</h3>
-          <p>
-            {{
-              item.propina
-                | currency:'CLP':'symbol-narrow':'1.0-0'
-            }}
-          </p>
-        </ion-label>
-      </ion-item>
+      <section class="tarjeta notas">
+        <span class="etiqueta-seccion">Notas</span>
+        <span class="notas__texto" [class.notas__texto--vacio]="!g.notas">
+          {{ g.notas || 'Sin notas' }}
+        </span>
+      </section>
 
-      <ion-item>
-        <ion-label>
-          <h3>Total</h3>
-          <p>
-            {{
-              item.monto + item.propina
-                | currency:'CLP':'symbol-narrow':'1.0-0'
-            }}
-          </p>
-        </ion-label>
-      </ion-item>
+      @if (!confirmando()) {
+        <div class="acciones">
+          <a class="boton-guardar boton-guardar--activo" [routerLink]="['/ganancia', g.id, 'editar']">
+            Editar ganancia
+          </a>
+          <button type="button" class="boton-peligro" (click)="confirmando.set(true)">
+            Eliminar registro
+          </button>
+        </div>
+      } @else {
+        <section class="tarjeta confirmar aparece" role="alertdialog" aria-labelledby="confirmar-titulo">
+          <div class="confirmar__textos">
+            <span id="confirmar-titulo" class="confirmar__titulo">¿Eliminar este registro?</span>
+            <span class="confirmar__texto">Se quitará del historial y de tus estadísticas. No se puede deshacer.</span>
+          </div>
+          <div class="confirmar__botones">
+            <button type="button" class="boton-secundario" (click)="confirmando.set(false)">Cancelar</button>
+            <button type="button" class="confirmar__eliminar" [disabled]="eliminando()" (click)="eliminar()">
+              {{ eliminando() ? 'Eliminando…' : 'Eliminar' }}
+            </button>
+          </div>
+        </section>
+      }
 
-      <ion-item>
-        <ion-label>
-          <h3>Fecha y hora</h3>
-          <p>{{ item.fecha }} · {{ item.hora }}</p>
-        </ion-label>
-      </ion-item>
+    } @else if (listo()) {
+      <div class="no-existe">
+        <span class="no-existe__titulo">No encontramos este registro</span>
+        <span class="no-existe__texto">Puede que se haya eliminado.</span>
+        <a class="boton-secundario no-existe__boton" routerLink="/app/historial">Ir al historial</a>
+      </div>
+    }
 
-      <ion-item>
-        <ion-label>
-          <h3>Notas</h3>
-          <p>{{ item.notas || 'Sin notas' }}</p>
-        </ion-label>
-      </ion-item>
-
-    </ion-list>
-
-    <ion-button
-      expand="block"
-      [routerLink]="[
-        '/app/ganancia',
-        item.id,
-        'editar'
-      ]">
-      Editar ganancia
-    </ion-button>
-
-    <ion-button
-      expand="block"
-      color="danger"
-      fill="outline"
-      (click)="eliminar()">
-      Eliminar ganancia
-    </ion-button>
-
-  } @else {
-
-    <p>No se encontró la ganancia.</p>
-
-    <ion-button
-      expand="block"
-      routerLink="/app/historial">
-      Volver al historial
-    </ion-button>
-
-  }
-
+  </div>
 </ion-content>

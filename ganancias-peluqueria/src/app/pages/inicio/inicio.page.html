@@ -55,8 +55,10 @@
 
     <div class="tarjeta lista-filas">
       @for (g of ultimas(); track g.id) {
-        <a class="fila" [routerLink]="['/app/ganancia', g.id]">
-          <span class="serif inicial">{{ g.inicial }}</span>
+        <a class="fila" [routerLink]="['/ganancia', g.id]">
+          <span class="inicial">
+            <app-icono-servicio [nombre]="g.nombre" />
+          </span>
           <span class="fila__texto">
             <span class="fila__nombre">{{ g.nombre }}</span>
             <span class="fila__sub">{{ g.cuando }}</span>
