@@ -58,6 +58,18 @@ export function fechaCorta(iso: string): string {
   return `${fecha.getDate()} ${MESES[fecha.getMonth()].slice(0, 3)}`;
 }
 
+/** "Sábado 26 sep" */
+export function fechaConDia(iso: string): string {
+  return `${DIAS[leerFecha(iso).getDay()]} ${fechaCorta(iso)}`;
+}
+
+/** Suma minutos a una hora "HH:MM", sin salir del mismo día. */
+export function sumarMinutos(hora: string, minutos: number): string {
+  const [h, m] = hora.split(':').map(Number);
+  const total = Math.min(23 * 60 + 59, Math.max(0, h * 60 + m + minutos));
+  return String(Math.floor(total / 60)).padStart(2, '0') + ':' + String(total % 60).padStart(2, '0');
+}
+
 /** "Hoy", "Ayer" o "Lunes 21 sep" */
 export function etiquetaDia(iso: string, hoy: string): string {
   if (iso === hoy) return 'Hoy';

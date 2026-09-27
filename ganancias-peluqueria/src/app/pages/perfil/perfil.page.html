@@ -1,13 +1,85 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>perfil</ion-title>
-  </ion-toolbar>
+<ion-header class="encabezado-app ion-no-border">
+  <app-cabecera-secundaria antetitulo="Cuenta" titulo="Perfil" />
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">perfil</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <div class="contenido contenido--secundario perfil">
+
+    @if (!editando()) {
+      <section class="tarjeta cuenta">
+        <div class="cuenta__datos">
+          <span class="serif cuenta__avatar">{{ auth.iniciales() }}</span>
+          <div class="cuenta__textos">
+            <span class="cuenta__nombre">{{ nombre() }}</span>
+            <span class="cuenta__barberia">{{ barberia() }}</span>
+            <span class="cuenta__email">{{ email() }}</span>
+          </div>
+        </div>
+        <button type="button" class="boton-secundario" (click)="empezarEdicion()">Editar perfil</button>
+      </section>
+    } @else {
+      <section class="tarjeta edicion aparece">
+        <div class="grupo">
+          <label class="etiqueta-seccion" for="perfil-nombre">Nombre</label>
+          <input
+            id="perfil-nombre"
+            class="campo edicion__campo"
+            autocomplete="name"
+            placeholder="Tu nombre"
+            [value]="eNombre()"
+            (input)="escribir('eNombre', $event)">
+        </div>
+        <div class="grupo">
+          <label class="etiqueta-seccion" for="perfil-barberia">Barbería</label>
+          <input
+            id="perfil-barberia"
+            class="campo edicion__campo"
+            autocomplete="organization"
+            placeholder="Dónde trabajas"
+            [value]="eBarberia()"
+            (input)="escribir('eBarberia', $event)">
+        </div>
+        <div class="grupo">
+          <span class="etiqueta-seccion">Correo</span>
+          <span class="edicion__fijo">{{ email() }}</span>
+          <span class="edicion__ayuda">El correo es tu usuario para iniciar sesión y no se puede cambiar.</span>
+        </div>
+        <div class="edicion__botones">
+          <button type="button" class="boton-secundario" (click)="editando.set(false)">Cancelar</button>
+          <button type="button" class="edicion__guardar" [disabled]="guardando()" (click)="guardarPerfil()">
+            {{ guardando() ? 'Guardando…' : 'Guardar' }}
+          </button>
+        </div>
+      </section>
+    }
+
+    <div class="seccion">
+      <span class="seccion__titulo">Servicios y precios</span>
+      <span class="seccion__ayuda">Se usan como valor sugerido al registrar.</span>
+    </div>
+
+    <div class="tarjeta precios">
+      @for (s of servicios(); track s.id) {
+        <div class="precio">
+          <span class="precio__icono">
+            <app-icono-servicio [nombre]="s.nombre" />
+          </span>
+          <label class="precio__nombre" [for]="'precio-' + s.id">{{ s.nombre }}</label>
+          <div class="precio__campo">
+            <span class="precio__signo">$</span>
+            <input
+              [id]="'precio-' + s.id"
+              inputmode="numeric"
+              [value]="s.precioTexto"
+              (change)="cambiarPrecio(s.id, $event)">
+          </div>
+        </div>
+      }
+    </div>
+
+    <button type="button" class="boton-peligro salir" [disabled]="saliendo()" (click)="cerrarSesion()">
+      {{ saliendo() ? 'Cerrando sesión…' : 'Cerrar sesión' }}
+    </button>
+
+  </div>
 </ion-content>

@@ -1,26 +1,13 @@
-import { CurrencyPipe } from '@angular/common';
-import { Component, computed, inject } from '@angular/core';
-import {
-  ActivatedRoute,
-  Router,
-  RouterLink
-} from '@angular/router';
+import { Component, computed, inject, input, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { IonContent, IonHeader, IonRouterOutlet, NavController } from '@ionic/angular';
 
-import {
-  AlertController,
-  IonBackButton,
-  IonButton,
-  IonButtons,
-  IonContent,
-  IonHeader,
-  IonItem,
-  IonLabel,
-  IonList,
-  IonTitle,
-  IonToolbar
-} from '@ionic/angular';
-
+import { CabeceraSecundariaComponent } from '../../components/cabecera-secundaria/cabecera-secundaria.component';
+import { IconoServicioComponent } from '../../components/icono-servicio/icono-servicio.component';
 import { GananciasService } from '../../services/ganancias.service';
+import { ToastService } from '../../services/toast.service';
+import { clp, fechaConDia } from '../../utils/formato';
+import { volverAtras } from '../../utils/navegacion';
 
 @Component({
   selector: 'app-detalle-ganancia',
@@ -28,57 +15,56 @@ import { GananciasService } from '../../services/ganancias.service';
   styleUrls: ['./detalle-ganancia.page.scss'],
   standalone: true,
   imports: [
-    CurrencyPipe,
-    RouterLink,
     IonHeader,
-    IonToolbar,
-    IonButtons,
-    IonBackButton,
-    IonTitle,
     IonContent,
-    IonList,
-    IonItem,
-    IonLabel,
-    IonButton
+    RouterLink,
+    CabeceraSecundariaComponent,
+    IconoServicioComponent
   ]
 })
 export class DetalleGananciaPage {
 
-  private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
-  private readonly alertController = inject(AlertController);
-  private readonly gananciasService = inject(GananciasService);
+  /** Viene del parámetro :id de la URL (withComponentInputBinding). */
+  readonly id = input.required<string>();
 
-  private readonly id =
-    this.route.snapshot.paramMap.get('id') ?? '';
+  private readonly gananciasService = inject(GananciasService);
+  private readonly toast = inject(ToastService);
+  private readonly nav = inject(NavController);
+  private readonly outlet = inject(IonRouterOutlet, { optional: true });
+
+  readonly listo = this.gananciasService.listo;
 
   readonly ganancia = computed(() =>
-    this.gananciasService.obtenerPorId(this.id)
+    this.gananciasService.obtenerPorId(this.id())
   );
 
+  readonly vista = computed(() => {
+    const g = this.ganancia();
+    if (!g) return null;
+    return {
+      ...g,
+      cuando: `${fechaConDia(g.fecha)} · ${g.hora}`,
+      montoTexto: clp(g.monto),
+      propinaTexto: '+' + clp(g.propina),
+      totalTexto: clp(g.monto + g.propina)
+    };
+  });
 
-  //ALERTA CONFIRMACION
-  
+  readonly confirmando = signal(false);
+  readonly eliminando = signal(false);
+
   async eliminar(): Promise<void> {
-    const alerta = await this.alertController.create({
-      header: 'Eliminar ganancia',
-      message: '¿Estás seguro de eliminar este registro?',
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel'
-        },
-        {
-          text: 'Eliminar',
-          role: 'destructive',
-          handler: () => {
-            this.gananciasService.eliminar(this.id);
-            this.router.navigate(['/app/historial']);
-          }
-        }
-      ]
-    });
+    if (this.eliminando()) return;
 
-    await alerta.present();
+    this.eliminando.set(true);
+    try {
+      await this.gananciasService.eliminar(this.id());
+      this.toast.mostrar('Registro eliminado');
+      volverAtras(this.nav, this.outlet, '/app/historial');
+    } catch (error) {
+      this.toast.mostrar('No se pudo eliminar: ' + (error as Error).message);
+    } finally {
+      this.eliminando.set(false);
+    }
   }
 }

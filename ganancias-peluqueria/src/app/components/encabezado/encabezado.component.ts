@@ -1,5 +1,5 @@
 import { Component, inject, input } from '@angular/core';
-import { Router } from '@angular/router';
+import { RouterLink } from '@angular/router';
 
 import { AuthService } from '../../services/auth.service';
 import { TemaService } from '../../services/tema.service';
@@ -8,7 +8,8 @@ import { TemaService } from '../../services/tema.service';
   selector: 'app-encabezado',
   templateUrl: './encabezado.component.html',
   styleUrls: ['./encabezado.component.scss'],
-  standalone: true
+  standalone: true,
+  imports: [RouterLink]
 })
 export class EncabezadoComponent {
 
@@ -17,10 +18,4 @@ export class EncabezadoComponent {
 
   readonly tema = inject(TemaService);
   readonly auth = inject(AuthService);
-  private readonly router = inject(Router);
-
-  cerrarSesion(): void {
-    this.auth.cerrarSesion();
-    this.router.navigate(['/login'], { replaceUrl: true });
-  }
 }

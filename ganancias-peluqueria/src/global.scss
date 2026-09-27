@@ -312,3 +312,88 @@ button {
   text-decoration: none;
   cursor: pointer;
 }
+
+/* Piezas compartidas por Registrar, Editar, Detalle y Perfil */
+.grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.opcional {
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.boton-guardar {
+  height: 58px;
+  border: none;
+  border-radius: 18px;
+  background: var(--surf2);
+  color: var(--ink3);
+  font-size: 16px;
+  font-weight: 600;
+  transition: opacity 0.15s, transform 0.1s;
+}
+
+.boton-guardar--activo {
+  background: var(--acc);
+  color: var(--on-acc);
+  cursor: pointer;
+
+  &:hover {
+    filter: brightness(1.06);
+  }
+
+  &:active {
+    transform: scale(0.99);
+  }
+}
+
+.boton-secundario,
+.boton-peligro {
+  height: 50px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: var(--surf2);
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--acc);
+  }
+}
+
+.boton-peligro {
+  height: 52px;
+  border-radius: 18px;
+  background: none;
+  color: var(--err);
+  font-size: 15px;
+
+  &:hover {
+    border-color: var(--err);
+  }
+}
+
+.boton-texto {
+  height: 46px;
+  border: none;
+  background: none;
+  color: var(--ink2);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.contenido--secundario {
+  padding-top: 4px;
+  padding-bottom: calc(var(--ion-safe-area-bottom, 0px) + 36px);
+}
+
+.aparece {
+  animation: rise 0.2s ease-out both;
+}

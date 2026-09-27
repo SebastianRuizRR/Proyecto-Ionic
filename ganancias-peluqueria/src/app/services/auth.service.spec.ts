@@ -1,51 +1,65 @@
 import { TestBed } from '@angular/core/testing';
 
+import { consultaFalsa, supabaseFalso } from '../testing/supabase-falso';
 import { AuthService } from './auth.service';
+import { SupabaseService } from './supabase.service';
 
 describe('AuthService', () => {
-  const cuenta = {
-    nombre: 'Leo Prueba',
-    barberia: 'Barbería Centro',
-    email: 'Leo@Prueba.cl',
-    password: 'Secreta123'
+  const user = {
+    id: 'uid-1',
+    email: 'leo@prueba.cl',
+    user_metadata: { nombre: 'Leo Prueba', barberia: 'Centro' }
   };
 
+  let cliente: ReturnType<typeof supabaseFalso>;
   let servicio: AuthService;
 
   beforeEach(() => {
-    localStorage.clear();
-    TestBed.configureTestingModule({});
+    cliente = supabaseFalso();
+    TestBed.configureTestingModule({
+      providers: [{ provide: SupabaseService, useValue: { client: cliente } }]
+    });
     servicio = TestBed.inject(AuthService);
   });
 
-  it('crea la cuenta, abre la sesión y calcula las iniciales', async () => {
-    await servicio.crearCuenta(cuenta);
+  it('inicia sesión, normaliza el correo y calcula las iniciales', async () => {
+    cliente.auth.signInWithPassword.mockResolvedValue({ data: { user }, error: null });
+    cliente.from.mockReturnValue(
+      consultaFalsa({ data: { nombre: 'Leo Prueba', barberia: 'Centro' }, error: null })
+    );
 
+    await servicio.iniciarSesion('  Leo@Prueba.cl ', 'Secreta123');
+
+    expect(cliente.auth.signInWithPassword).toHaveBeenCalledWith({
+      email: 'leo@prueba.cl',
+      password: 'Secreta123'
+    });
     expect(servicio.autenticado()).toBe(true);
-    expect(servicio.usuario()?.email).toBe('leo@prueba.cl');
     expect(servicio.iniciales()).toBe('LP');
-    expect(localStorage.getItem('cuentas')).not.toContain(cuenta.password);
   });
 
-  it('no permite dos cuentas con el mismo correo', async () => {
-    await servicio.crearCuenta(cuenta);
+  it('rechaza credenciales incorrectas', async () => {
+    cliente.auth.signInWithPassword.mockResolvedValue({
+      data: { user: null },
+      error: { message: 'Invalid login credentials' }
+    });
 
-    await expect(
-      servicio.crearCuenta({ ...cuenta, email: ' leo@prueba.cl ' })
-    ).rejects.toThrow('Ya existe una cuenta con ese correo');
+    await expect(servicio.iniciarSesion('leo@prueba.cl', 'otra'))
+      .rejects.toThrow('Correo o contraseña incorrectos');
+    expect(servicio.autenticado()).toBe(false);
   });
 
-  it('inicia sesión solo con la contraseña correcta', async () => {
-    await servicio.crearCuenta(cuenta);
-    servicio.cerrarSesion();
-    expect(servicio.autenticado()).toBe(false);
+  it('avisa cuando crear la cuenta requiere confirmar el correo', async () => {
+    cliente.auth.signUp.mockResolvedValue({ data: { user, session: null }, error: null });
 
-    await expect(
-      servicio.iniciarSesion(cuenta.email, 'otra-clave')
-    ).rejects.toThrow('Correo o contraseña incorrectos');
-    expect(servicio.autenticado()).toBe(false);
+    const sesionAbierta = await servicio.crearCuenta({
+      nombre: 'Leo Prueba',
+      barberia: '',
+      email: 'leo@prueba.cl',
+      password: 'Secreta123'
+    });
 
-    await servicio.iniciarSesion('leo@prueba.cl', cuenta.password);
-    expect(servicio.autenticado()).toBe(true);
+    expect(sesionAbierta).toBe(false);
+    expect(servicio.autenticado()).toBe(false);
   });
 });

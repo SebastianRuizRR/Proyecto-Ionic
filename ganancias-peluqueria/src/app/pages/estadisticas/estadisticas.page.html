@@ -37,8 +37,14 @@
 
     <section class="tarjeta bloque bloque--calendario">
       <div class="bloque__cabecera">
-        <span class="bloque__titulo">{{ etiquetaMes() }}</span>
-        <span class="bloque__ayuda">Toca un día</span>
+        <div class="bloque__textos">
+          <span class="bloque__titulo">{{ etiquetaMes() }}</span>
+          <span class="bloque__ayuda">Toca un día</span>
+        </div>
+        <div class="paso">
+          <button type="button" class="paso__boton" aria-label="Mes anterior" (click)="mesAnterior()">‹</button>
+          <button type="button" class="paso__boton" aria-label="Mes siguiente" [disabled]="esMesActual()" (click)="mesSiguiente()">›</button>
+        </div>
       </div>
       <div class="calendario">
         @for (d of diasSemana; track $index) {
@@ -78,11 +84,11 @@
             {{ cantidadDia() }} {{ cantidadDia() === 1 ? 'servicio realizado' : 'servicios realizados' }}
           </span>
           @for (f of filasDia(); track f.id) {
-            <div class="dia__fila">
+            <a class="dia__fila" [routerLink]="['/ganancia', f.id]">
               <span class="dia__hora">{{ f.hora }}</span>
               <span class="dia__nombre">{{ f.nombre }}</span>
               <span class="dia__monto">{{ f.monto }}</span>
-            </div>
+            </a>
           }
         </div>
       } @else {

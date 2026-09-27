@@ -41,9 +41,14 @@ export class LoginPage {
       this.info.set('');
       return;
     }
-    await this.auth.recuperarContrasena(this.email());
-    this.errores.set({});
-    this.info.set('Te enviamos un enlace a ' + this.email().trim());
+    try {
+      await this.auth.recuperarContrasena(this.email());
+      this.errores.set({});
+      this.info.set('Te enviamos un enlace a ' + this.email().trim());
+    } catch (error) {
+      this.errores.set({ email: (error as Error).message });
+      this.info.set('');
+    }
   }
 
   async entrar(evento: Event): Promise<void> {

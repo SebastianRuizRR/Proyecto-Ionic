@@ -37,6 +37,7 @@ export class CrearCuentaPage {
   readonly mostrarPassword = signal(false);
   readonly errores = signal<Errores>({});
   readonly cargando = signal(false);
+  readonly info = signal('');
 
   private readonly seguridad = computed(() => seguridadPassword(this.password()));
   readonly etiquetaSeguridad = computed(() => ETIQUETAS_SEGURIDAD[this.seguridad()]);
@@ -70,13 +71,18 @@ export class CrearCuentaPage {
 
     this.cargando.set(true);
     try {
-      await this.auth.crearCuenta({
+      const sesionAbierta = await this.auth.crearCuenta({
         nombre: this.nombre(),
         barberia: this.barberia(),
         email: this.email(),
         password: this.password()
       });
-      this.router.navigate(['/app/inicio'], { replaceUrl: true });
+
+      if (sesionAbierta) {
+        this.router.navigate(['/app/inicio'], { replaceUrl: true });
+      } else {
+        this.info.set('Te enviamos un correo a ' + this.email().trim() + '. Confírmalo y luego inicia sesión.');
+      }
     } catch (error) {
       this.errores.set({ email: (error as Error).message });
     } finally {

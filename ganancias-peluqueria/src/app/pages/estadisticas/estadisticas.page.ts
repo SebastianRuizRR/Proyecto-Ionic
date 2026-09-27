@@ -1,4 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { IonContent, IonHeader } from '@ionic/angular';
 
 import { EncabezadoComponent } from '../../components/encabezado/encabezado.component';
@@ -16,7 +17,7 @@ import {
   templateUrl: './estadisticas.page.html',
   styleUrls: ['./estadisticas.page.scss'],
   standalone: true,
-  imports: [IonHeader, IonContent, EncabezadoComponent]
+  imports: [IonHeader, IonContent, RouterLink, EncabezadoComponent]
 })
 export class EstadisticasPage {
 
@@ -27,14 +28,17 @@ export class EstadisticasPage {
   readonly hoy = signal(fechaISO(new Date()));
   readonly diaElegido = signal(this.hoy());
 
-  private readonly mes = computed(() => this.hoy().slice(0, 7));
+  /** Mes que se está mirando, "AAAA-MM". Parte en el mes actual. */
+  readonly mes = signal(this.hoy().slice(0, 7));
+
+  readonly esMesActual = computed(() => this.mes() === this.hoy().slice(0, 7));
 
   private readonly delMes = computed(() =>
     this.gananciasService.ganancias().filter(g => g.fecha.startsWith(this.mes()))
   );
 
   readonly etiquetaMes = computed(() => {
-    const fecha = leerFecha(this.hoy());
+    const fecha = leerFecha(this.mes() + '-01');
     const mes = nombreMes(fecha.getMonth());
     return `${mes.charAt(0).toUpperCase()}${mes.slice(1)} ${fecha.getFullYear()}`;
   });
@@ -119,11 +123,35 @@ export class EstadisticasPage {
     this.delDia().map(g => ({ id: g.id, hora: g.hora, nombre: g.servicio, monto: clp(g.monto) }))
   );
 
+  mesAnterior(): void {
+    this.irAMes(-1);
+  }
+
+  mesSiguiente(): void {
+    if (!this.esMesActual()) this.irAMes(1);
+  }
+
   ionViewWillEnter(): void {
     const hoy = fechaISO(new Date());
     if (hoy !== this.hoy()) {
       this.hoy.set(hoy);
+      this.mes.set(hoy.slice(0, 7));
       this.diaElegido.set(hoy);
+    }
+  }
+
+  private irAMes(desplazamiento: number): void {
+    const [anio, mes] = this.mes().split('-').map(Number);
+    const nuevo = fechaISO(new Date(anio, mes - 1 + desplazamiento, 1)).slice(0, 7);
+    this.mes.set(nuevo);
+
+    // En el mes actual se elige hoy; en otros, el último día con ganancias
+    // (o el día 1 si ese mes no tiene registros).
+    if (this.esMesActual()) {
+      this.diaElegido.set(this.hoy());
+    } else {
+      const fechas = this.delMes().map(g => g.fecha).sort();
+      this.diaElegido.set(fechas.at(-1) ?? nuevo + '-01');
     }
   }
 }

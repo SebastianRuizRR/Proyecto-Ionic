@@ -1,0 +1,204 @@
+.cuenta {
+  border-radius: 22px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  box-shadow: var(--sombra-tarjeta);
+
+  .boton-secundario {
+    height: 48px;
+  }
+}
+
+.cuenta__datos {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.cuenta__avatar {
+  flex: none;
+  width: 68px;
+  height: 68px;
+  border-radius: 34px;
+  background: var(--acc);
+  color: var(--on-acc);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  line-height: 1;
+}
+
+.cuenta__textos {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.cuenta__nombre {
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.cuenta__barberia {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink2);
+}
+
+.cuenta__email {
+  font-size: 12px;
+  color: var(--ink3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.edicion {
+  border: 1.5px solid var(--acc);
+  border-radius: 22px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.edicion__campo {
+  height: 50px;
+  border-radius: 14px;
+  background: var(--bg);
+  font-size: 15px;
+}
+
+.edicion__fijo {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink2);
+}
+
+.edicion__ayuda {
+  font-size: 12px;
+  color: var(--ink3);
+}
+
+.edicion__botones {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+}
+
+.edicion__guardar {
+  height: 50px;
+  border: none;
+  border-radius: 14px;
+  background: var(--acc);
+  color: var(--on-acc);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover {
+    filter: brightness(1.06);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+  }
+}
+
+.seccion {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 8px 4px 0;
+}
+
+.seccion__titulo {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.seccion__ayuda {
+  font-size: 12px;
+  color: var(--ink3);
+}
+
+.precios {
+  overflow: hidden;
+}
+
+.precio {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 12px 11px 16px;
+  border-top: 1px solid var(--line);
+
+  &:first-child {
+    border-top: none;
+  }
+}
+
+.precio__icono {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: var(--surf2);
+  color: var(--acc);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.precio__nombre {
+  flex: 1;
+  min-width: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.precio__campo {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 42px;
+  width: 112px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg);
+  padding: 0 12px;
+  box-sizing: border-box;
+
+  &:focus-within {
+    border-color: var(--acc);
+  }
+
+  input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: none;
+    outline: none;
+    color: var(--ink);
+    font-family: var(--fuente);
+    font-size: 14px;
+    font-weight: 600;
+    text-align: right;
+    padding: 0;
+  }
+}
+
+.precio__signo {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink3);
+}
+
+.salir {
+  margin-top: 6px;
+}

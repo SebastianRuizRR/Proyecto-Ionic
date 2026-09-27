@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
+
+import { proveedoresDePrueba } from '../../testing/supabase-falso';
 import { InicioPage } from './inicio.page';
 
 describe('InicioPage', () => {
@@ -7,9 +8,7 @@ describe('InicioPage', () => {
   let fixture: ComponentFixture<InicioPage>;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [provideRouter([])]
-    });
+    TestBed.configureTestingModule({ providers: proveedoresDePrueba() });
     fixture = TestBed.createComponent(InicioPage);
     component = fixture.componentInstance;
     fixture.detectChanges();

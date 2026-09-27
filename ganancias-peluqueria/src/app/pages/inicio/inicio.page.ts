@@ -3,7 +3,7 @@ import { RouterLink } from '@angular/router';
 import { IonContent, IonHeader } from '@ionic/angular';
 
 import { EncabezadoComponent } from '../../components/encabezado/encabezado.component';
-import { inicialServicio } from '../../models/servicio.model';
+import { IconoServicioComponent } from '../../components/icono-servicio/icono-servicio.component';
 import { GananciasService } from '../../services/ganancias.service';
 import {
   clp,
@@ -23,7 +23,7 @@ import {
   templateUrl: './inicio.page.html',
   styleUrls: ['./inicio.page.scss'],
   standalone: true,
-  imports: [IonHeader, IonContent, RouterLink, EncabezadoComponent]
+  imports: [IonHeader, IonContent, RouterLink, EncabezadoComponent, IconoServicioComponent]
 })
 export class InicioPage {
 
@@ -65,7 +65,6 @@ export class InicioPage {
       .slice(0, 4)
       .map(g => ({
         id: g.id,
-        inicial: inicialServicio(g.servicio),
         nombre: g.servicio,
         cuando: `${etiquetaDia(g.fecha, this.hoy())} · ${g.hora}`,
         monto: clp(g.monto)

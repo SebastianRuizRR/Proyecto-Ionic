@@ -36,6 +36,11 @@ export class GananciasService {
   readonly ganancias =
     this.lista.asReadonly();
 
+  // true cuando ya se intentó cargar la lista (con o sin sesión).
+  private readonly cargada = signal(false);
+
+  readonly listo = this.cargada.asReadonly();
+
   readonly cantidad = computed(
     () => this.lista().length
   );
@@ -61,6 +66,7 @@ export class GananciasService {
           });
         } else {
           this.lista.set([]);
+          this.cargada.set(true);
         }
       }
     );
@@ -72,6 +78,7 @@ export class GananciasService {
 
     if (!sesionData.session) {
       this.lista.set([]);
+      this.cargada.set(true);
       return;
     }
 
@@ -92,6 +99,8 @@ export class GananciasService {
       .order('hora', {
         ascending: false
       });
+
+    this.cargada.set(true);
 
     if (error) {
       throw new Error(error.message);

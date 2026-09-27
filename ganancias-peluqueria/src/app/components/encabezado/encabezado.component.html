@@ -13,13 +13,12 @@
       <span class="encabezado__punto"></span>
     </button>
 
-    <button
-      type="button"
+    <a
       class="encabezado__usuario"
-      title="Cerrar sesión"
-      aria-label="Cerrar sesión"
-      (click)="cerrarSesion()">
+      routerLink="/perfil"
+      title="Perfil"
+      aria-label="Abrir perfil">
       {{ auth.iniciales() }}
-    </button>
+    </a>
   </div>
 </div>
